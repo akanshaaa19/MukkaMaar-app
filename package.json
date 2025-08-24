@@ -18,5 +18,8 @@
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "https": "^1.0.0"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.10"
   }
 }

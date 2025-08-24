@@ -4,11 +4,10 @@ import { getOperatorDetailsFromReloadly, redeemPoints } from "./reloadly.js";
 export const getOperatorDetails = async (req) => {
   const { contact, flowId } = req.body;
 
-  const { operatorId, fixedAmounts } = await getOperatorDetailsFromReloadly(
-    contact.phone
-  );
+  const operatorResponse = await getOperatorDetailsFromReloadly(contact.phone);
+  if (operatorResponse) {
+    const { operatorId, fixedAmounts } = operatorResponse;
 
-  if (operatorId && fixedAmounts) {
     callResumeFlow(contact.id, flowId, {
       operatorSuccess: true,
       operatorId: operatorId,
@@ -104,7 +103,11 @@ export const getEligiblePoints = async (req) => {
       const operatorDetails = await getOperatorDetailsFromReloadly(
         contact.phone
       );
-      fixedAmountsToUse = operatorDetails.fixedAmounts;
+      if (operatorDetails) {
+        fixedAmountsToUse = operatorDetails.fixedAmounts;
+      } else {
+        fixedAmountsToUse = "10,20,50,100,220,319,348,500,1000";
+      }
     }
 
     const finalFixedAmount = fixedAmountsToUse.split(",");

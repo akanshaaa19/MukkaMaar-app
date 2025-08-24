@@ -42,13 +42,13 @@ export const getOperatorDetailsFromReloadly = async (phone) => {
     .then((response) => response)
     .catch((error) => error);
 
-  console.log(response.data);
-
   if (response.status === 200) {
     return {
       operatorId: response.data.operatorId,
       fixedAmounts: response.data.fixedAmounts,
     };
+  } else {
+    return false;
   }
 };
 
